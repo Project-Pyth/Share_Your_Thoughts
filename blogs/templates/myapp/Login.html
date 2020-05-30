@@ -1,0 +1,107 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!--<style>img{width:100%;height:100%;}</style>-->
+    <title>Hello, world!</title>
+    <style>
+		body{background-image:url({% static 'back.jpg' %});background-size:cover;
+		background-repeat:no-repeat;}
+		.form{color:white;font-size:30px;margin-left:10px;}
+	    input[type="text"],input[type="password"],input[type="email"]
+          {
+              outline:none;border:none;
+              text-align:center;color:white;
+              border-bottom: 1px solid white;
+              border-radius:5px;font-weight:bold;
+              padding:20px;background:transparent;
+                width:400px;margin-left:30px;
+          }
+          .button
+            {
+                background:none;
+                position:relative;left:25%;top:10px;
+                color:white;padding:10px;width:200px;
+                border-radius:15px;border:3px solid #3498db;
+            }
+            .button:hover
+                {
+                    border:3px solid #307fc9;
+                    cursor:pointer;
+                    color:white;width:210px;padding:15px;
+                    background-color:#307fc9;
+                    transition:1s;
+                }.a{color:white;margin-left:100px;}
+                .a:hover{text-decoration:none;color:white;}
+                .form1
+          {
+              background-color:rgba(0,0,0,.5);
+              color:white;
+              width:45%;
+              border-radius:50px;
+              top:10px;
+              margin-left:20%;
+              padding-bottom:20px;padding-top:15px;padding-right:10%;
+              padding-left:70px;}
+
+	</style>
+  </head>
+  <body>
+  <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Share Your Thoughts</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="register">Register</a>
+      </li>
+
+
+    </ul>
+
+  </div>
+</nav>
+  {% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Message</strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+  <center><h1 style="color:white;margin-top:10px;border-bottom: 5px solid white;
+              border-radius:20px;width:300px;">Login Form</h1></center>
+
+<form class=" form form1" style="margin-top:50px;margin-left:350px;" action="" method="POST">
+      {% csrf_token %}
+
+      <label for="inputEmail4" style="margin-left:30px;">User name</label>
+      <input type="text" class="form-control" id="inputEmail4" name="uname" required="required">
+	  
+    <br><br>
+
+      <label for="inputPassword4" style="margin-left:30px;">Password</label>
+      <input type="password" class="form-control" id="inputPassword4" name="pass" required="required">
+
+    <button type="submit" class="button button1" style="margin-left:15px;margin-top:25px;">Login</button><br><br>
+    <a href="reset_password" class="a">Forget password?</a>
+
+</form>
+  </body>
+</html>  

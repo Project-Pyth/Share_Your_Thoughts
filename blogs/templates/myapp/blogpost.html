@@ -1,0 +1,127 @@
+{% load humanize %}
+{% load extras %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Title</title>
+</head>
+<body>
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Share Your Thoughts</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/dashboard">Dashboard</a>
+      </li>
+        <li class="nav-item ">
+        <a class="nav-link" href="/blog">Write Blog</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/view_blog">View your Blogs</a>
+      </li>
+         <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" >
+        {% csrf_token %}
+      <select name="search" style="padding:8px;width:250px; border:none;border-radius:10px;">
+  <option selected>Search</option>
+  <option value="Technical">Technical</option>
+  <option value="Literature">Literature</option>
+  <option value="Historical">Historical</option>
+</select>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<div class="container" style="margin-top:20px;">
+
+
+
+               <h2>{{post.title}}</h2>
+    <div><strong>Publish on:      </strong>{{post.date_time}} by <strong>{{post.user_id.username}}</strong>  Views({{post.views}})</div>
+    <br><div>{{post.blog}}</div>
+
+    {% if user.is_authenticated %}
+        <br><br><h2>Comments({{comments.count}})</h2>
+    <form action="postcomment" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail">Post Comment</label>
+            <input type="text" class="Form-control" name="comment">
+        </div>
+        <input type="hidden" name="postsno" value="{{post.id}}">
+        <input type="hidden" name="parentsno" value="">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% for comment in comments %}
+        <div class="row my-3">
+            <div class="col-md-1">
+
+                <img class="rounded rounded-circle mx-auto d-block w-100 p-2 " src="{{pro.image.url}}">
+            </div>
+            <div class="col-md-11">
+                <b>{{comment.user.username}}</b> at   {{comment.timestamp|naturaltime}}
+                <div>{{comment.comment}}</div>
+                <div class="reply mx-0">
+
+
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#replybox{{comment.sno}}" aria-expanded="false" aria-controls="replybox{{comment.sno}}">
+    Reply
+  </button>
+
+<div class="collapse" id="replybox{{comment.sno}}">
+  <div class="card card-body my-2">
+    <form action="postcomment" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="comment">Post a Reply</label>
+            <input type="text" class="form-control" name="comment">
+            <input type="hidden" name="parentsno" value="{{comment.sno}}">
+        </div>
+        <input type="hidden" name="postsno" value="{{post.id}}">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+                    <div class="replies my-2">
+                        {% for reply in replydict|get_val:comment.sno %}
+                         <div class="row my-3">
+                          <div class="col-md-1">
+
+                <img class="rounded rounded-circle mx-auto d-block w-100 p-2 " src="{{pro.image.url}}">
+                        </div>
+                              <div class="col-md-11">
+                       <b>{{comment.user.username}}</b> at   {{reply.timestamp|naturaltime}}
+                                  <div>{{reply}}</div></div>
+                             <br></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+{% endif %}
+</div>
+</body>
+</html>

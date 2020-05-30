@@ -1,0 +1,93 @@
+{% load static %}
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Title</title>
+    <style>
+		body{background-image:url({% static 'back.jpg' %});background-size:cover;color:white;}
+		.form{color:white;font-size:20px;margin:20px;font-weight:bold;}
+		textarea{width:300px;height:40px;background:none;color:white;border:none;border-bottom:3px solid white;border-radius:5px;}
+		input[type="text"],input[type="password"],input[type="email"]
+          {
+              outline:none;border:none;
+              text-align:center;color:white;
+              border-bottom: 1px solid white;
+              border-radius:5px;font-weight:bold;
+              padding:10px;background:rgba(0,0,0,0.10);
+              box-sizing:border-box;
+          }
+          .form1
+          {
+              background-color:rgba(0,0,0,.5);color:white;border-radius:50px;
+              width:70%;padding-top:50px;padding-bottom:50px;
+          }
+
+          label{border:5px solid white;padding:10px;border-radius:10px;
+                margin-right:50px;}
+              .button
+            {
+                background:none;left:20%;top:10px;
+                color:white;padding:10px;width:200px;
+                border-radius:24px;border:3px solid #3498db;
+            }
+
+            .button:hover
+                {
+                    border:3px solid #307fc9;width:210px;padding:15px;
+                    cursor:pointer;
+                    color:white;
+                    background-color:#307fc9;
+                    transition:1s;
+                }
+                input[type="FILE"]{background:none;color:white;}
+	</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Share Your Thoughts</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="dashboard">Dashboard</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="blog">Write Blog</a>
+      </li>
+         <li class="nav-item">
+        <a class="nav-link" href="change_password">Change Password</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logout">Logout</a>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
+<center><h1 style="color:white;border-bottom:5px solid white; width:250px;border-radius:20px;">Edit Profile</h1></center>
+<center><form method="POST" enctype="multipart/form-data" class="form form1">
+    {% csrf_token %}
+    <div class="form-row"><div class="form-group col-md-12">
+        {{user_form.as_p}}</div></div>
+    <div class="form-row"><div class="form-group col-md-12">
+        {{profile_form.as_p}}</div></div>
+    <button type="submit" class="button">Submit</button>
+</form></center>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
+

@@ -1,0 +1,107 @@
+{% load static %}
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!--<style>img{width:100%;height:100%;}</style>-->
+    <title>Hello, world!</title>
+  </head>
+<body>
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Share Your Thoughts</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      {% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link" href="dashboard">Hi {{user.first_name}}<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logout" target="_self">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="login" target="_self">Login</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="register" id="navbarDropdown" role="button" target="_new">
+          Register
+        </a>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="allblog" target="_self">Read Blogs</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="about_us" target="_self">About us</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="search_blogs" method="post">
+      {% csrf_token %}
+      <select name="search" style="padding:8px;width:250px; border:none;border-radius:10px;">
+  <option selected>Search</option>
+  <option value="Technical">Technical</option>
+  <option value="Literature">Literature</option>
+  <option value="Historical">Historical</option>
+</select>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<img src="{% static 'blog-call.jpeg' %}" style="width:100%;height:60%;position:absolute;">
+
+            {% if user.is_authenticated %}
+            {% else %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <b>You have to Login first to read the Blog details.</b>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
+<!--
+      <h1 style="position:relative;top:30%;"><center>Here are your blogs</center></h1>
+-->
+            <div style="position:relative;top:65%;" class="container">
+                <center><h1 style="margin-bottom:50px;">Latest from the Blogs</h1></center>
+                {% for data in content %}
+                <!--
+                <div style="width:30%;float:left;margin-bottom:5%;margin-left:200px;">
+
+
+           <table >
+               <tr><th><h2><a href="blogpost/{{data.id}}">{{data.title}}</a></h2></th></tr>
+        <tr><td>{{data.blog}}</td></tr>
+               <tr><td><strong>Publish on:      </strong>{{data.date_time}}</td></tr>
+               <tr><td><strong>Author:      </strong>{{data.user_id.username}}</td></tr>
+        </table></div>-->
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <!--<strong class="d-inline-block mb-2 text-primary">World</strong>-->
+            <h3 class="mb-0" style="color:#17a9e8;">{{data.title}}</h3>
+          <div class="mb-1 text-muted">{{data.date_time}}</div>
+          <p class="card-text mb-auto">{{data.blog| truncatechars:300}}</p>
+            <div><strong>Author:      </strong>{{data.user_id.username}}</div>
+            {% if user.is_authenticated %}
+          <div><a href="blogpost/{{data.id}}" class="btn btn-primary" role="button">Continue reading</a>
+        </div>{% endif%}</div></div>{% endfor %}
+       </div>
+</body>
+</html>
